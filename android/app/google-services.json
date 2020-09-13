@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "191451223139",
+    "firebase_url": "https://onlinecrm-test.firebaseio.com",
+    "project_id": "onlinecrm-test",
+    "storage_bucket": "onlinecrm-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191451223139:android:c1f9dd6ecd309883155456",
+        "android_client_info": {
+          "package_name": "com.crmtest2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191451223139-fo5eddrvps3tk0i3fadc9bketjeacmgd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1we5xt1qjUqTfKndGAwieONQwzJXo0Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191451223139-fo5eddrvps3tk0i3fadc9bketjeacmgd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191451223139:android:7ee18dde1c64e88d155456",
+        "android_client_info": {
+          "package_name": "com.onlinecrmtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "191451223139-fo5eddrvps3tk0i3fadc9bketjeacmgd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1we5xt1qjUqTfKndGAwieONQwzJXo0Ec"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "191451223139-fo5eddrvps3tk0i3fadc9bketjeacmgd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -125,7 +125,7 @@ class ScanTextScreen extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.options}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ScanTextAssets')}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ScanCode')}>
                         <View style={styles.container}>
                             <View style={styles.item}>
                                 <Image

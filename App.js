@@ -29,6 +29,8 @@ import MyNotes from './src/screen/myNote/myNotes';
 import AddNote from './src/screen/myNote/addNote';
 import ScanCard from './src/screen/BCScan/ScanCard';
 import ReviewCard from './src/screen/BCScan/ReviewCard';
+import ScanCode from './src/screen/QRcode/ScanCode';
+import ReviewCode from "./src/screen/QRcode/ReviewCode";
 
 const AppNavigator = createStackNavigator(
     {
@@ -71,10 +73,22 @@ const AppNavigator = createStackNavigator(
         },
         ReviewCard: {
             screen: ReviewCard,
-            navigationOptions: ({navigation}) =>({
+            navigationOptions: ({navigation}) => ({
                 headerShown: false
             })
         },
+        ScanCode: {
+            screen: ScanCode,
+            navigationOptions: ({navigation}) => ({
+                headerShown: false
+            })
+        },
+        ReviewCode: {
+            screen: ReviewCode,
+            navigationOptions: ({navigation}) => ({
+                headerShown: false
+            })
+        }
     },
     {
         initialRouteName: 'Home',

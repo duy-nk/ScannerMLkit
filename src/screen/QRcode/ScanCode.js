@@ -17,10 +17,22 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Spinner from 'react-native-loading-spinner-overlay';
 
+const PendingView = () => (
+    <View
+        style = {{
+            flex: 1,
+            //backgroundColor: 'lightgreen',
+            justifyContent: 'center',
+            alignItems: 'center'
+        }}
+        >
+        <Text>Waiting</Text>
+    </View>
+)
 
-class ScanCard extends Component {
+class ScanCode extends Component {
     state = {
-        document: '',
+        code: '',
         spinner: false
     }
     render() {
@@ -50,6 +62,8 @@ class ScanCard extends Component {
                     }}
                 >
                     {({camera, status, androidRecordAudioPermissionOptions}) => {
+                        
+                        //if (status != 'READY') return <PendingView/>;
                         return (
                             <View>
                                 <Icon
@@ -83,48 +97,19 @@ class ScanCard extends Component {
                 base64: true 
             };
             const data = await camera.takePictureAsync(options);
-            const processed = await vision().textRecognizerProcessImage(data.uri);
-            console.log('data by scan: ',processed);
-            let PhoneNumberFormat = /((0|84)+([0-9]{1})+([0-9]{8}))|(1[0-9]{7})\b/
-            let phoneList = [];
-            processed.text?.split('\n')?.map((text, index) => {
-                let doc = text.replace(/[ ,(,),-,+,.]/g,'');
-                let phoneNumber = doc.match(PhoneNumberFormat);
-                if (phoneNumber) {
-                    phoneList.push(phoneNumber[0])
-                }
-                
-            })
-            
-            let emailFormat = /^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/
-            let emailList = [];
-            processed.text?.split('\n')?.map((text, index) => {
-                let doc = text.replace(/[ ,(,),-,+]/g,'');
-                let email = doc.match(emailFormat);
-                if (email) {
-                    emailList.push(email[0])
-                }
-            })
-            console.log('tim e maill', emailList)
-            //console.log(phoneList);
+            const processed = await vision().barcodeDetectorProcessImage(data.uri)
+            console.log('man hinh scan code: ');
+            console.log(processed);
             this.setState({ spinner: false }, () => {
-                this.props.navigation.navigate('ReviewCard', {
-                    data: {
-                        phones: phoneList,
-                        emails: emailList,
-                    }
-                })
-                //alert(result);
+                this.props.navigation.navigate('ReviewCode',{ data: processed[0] });
             })
-            
+            this.setState({spinner: false})
         } catch (error) {
             
         }
     }
     
 };
-
-           
 
 const styles = StyleSheet.create({
     spinnerTextStyle: {
@@ -144,5 +129,5 @@ const styles = StyleSheet.create({
       },
 });
 
-export default ScanCard;
+export default ScanCode;
 

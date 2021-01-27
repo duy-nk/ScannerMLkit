@@ -11,25 +11,51 @@ import {
     PermissionsAndroid
 } from 'react-native';
 import { FAB, TextInput} from 'react-native-paper';
-//import Contacts from 'react-native-contacts';
+import Contacts, { addContact } from 'react-native-contacts';
 
-// PermissionsAndroid.request(
-//     PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
-//     {
-//       'title': 'Contacts',
-//       'message': 'This app would like to view your contacts.',
-//       'buttonPositive': 'Please accept bare mortal'
-//     }
-//   ).then(() => {
-//     Contacts.getAll((err, contacts) => {
-//       if (err === 'denied'){
-//         // error
-//       } else {
-//         // contacts returned in Array
-//       }
-//     })
-// })
+    const requestContactPermission = async () => {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
+            {
+              title: "Cool Photo App Camera Permission",
+              message:
+                "Cool Photo App needs access to your camera " +
+                "so you can take awesome pictures.",
+              buttonNeutral: "Ask Me Later",
+              buttonNegative: "Cancel",
+              buttonPositive: "OK"
+            }
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log("You can use the contact");
+          } else {
+            console.log("Contact permission denied");
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      };
 
+    openContactPicker = () => {
+        let number = this.props?.navigation?.state?.params?.data?.phones[0] || '' //replace with any number
+        let email = this.props?.navigation?.state?.params?.data?.emails[0] || '';
+        let newPerson = {
+          phoneNumbers: [{
+            label: "mobile",
+            number: number,
+          }],
+          emailAddresses: [{
+            label: "work",
+            email: email,
+          }],
+        };
+  
+        Contacts.openContactForm(newPerson, (err) => {
+          if (err) console.warn(err) ;
+          // form is open
+        });
+    };
 class ReviewCard extends Component {
     constructor(props) {
         super(props);
@@ -44,43 +70,17 @@ class ReviewCard extends Component {
         }
         console.disableYellowBox = true;
     }
-    // addContact() {
-    //     var newPerson = {
-    //         emailAddresses: [{
-    //           label: "work",
-    //           email: "mrniet@example.com",
-    //         }],
-    //         familyName: "Nietzsche",
-    //         givenName: "Friedrich",
-    //         phoneNumbers: [{
-    //             label: 'mobile',
-    //             number: '(555) 555-5555',
-    //         }],
-    //     }
-    //     Contacts.addContact(newPerson, (err, contact) => {       
-    //         if (err) throw err;
-    //         //contact updated
-    //     });
-    // }
+    
     render() {
         console.log('man hinh review',this.props?.navigation?.state?.params?.data);
         console.log('new contact', this.newPerson)
+        var numberPhone = this.props?.navigation?.state?.params?.data?.phones[0] || ''
+        var email = this.props?.navigation?.state?.params?.data?.emails[0] || ''
         return(
             <View style={styles.container}>
                 <View style={styles.headerView}>
                     <Text style={styles.headerText}>Card Infomations</Text>
                 </View>
-                <View style={styles.options}>
-                    <Text style={styles.titleName}>Name of the person</Text>
-                    <TextInput
-                        label='Name'
-                        value={this.state.fullName}
-                        mode='outlined'
-                        onChangeText={ value => this.setState({fullName: value}) }
-                        style={styles.titleData}
-                    />
-                </View>
-                
                 <View style={styles.options}>
                     <Text style={styles.titleName}>Phone Number</Text>
                     <TextInput
@@ -89,18 +89,6 @@ class ReviewCard extends Component {
                         mode='outlined'
                         onChangeText={(value) => {
                             this.setState({numberPhone: value})
-                        }}
-                        style={styles.titleData}
-                    />
-                </View>
-                <View style={styles.options}>
-                    <Text style={styles.titleName}>Other Phone Number</Text>
-                    <TextInput
-                        label='other phone number'
-                        value={this.state.otherNumberPhone}
-                        mode='outlined'
-                        onChangeText={(value) => {
-                            this.setState({otherNumberPhone: value})
                         }}
                         style={styles.titleData}
                     />
@@ -115,25 +103,40 @@ class ReviewCard extends Component {
                         style={styles.titleData}
                     />
                 </View>
-                <View style={styles.options}>
-                    <Text style={styles.titleName}>Other Email</Text>
-                    <TextInput
-                        label='orther email'
-                        value={this.state.otherEmail}
-                        mode='outlined'
-                        onChangeText={ value => this.setState({otherEmail: value}) }
-                        style={styles.titleData}
-                    />
-                </View>
                 <View style={{paddingTop: 55}}></View>
-                <FAB
-                    style={styles.fab}
-                    small
-                    icon='plus'
-                    label='Add to contact'
-                    //onPress={() => {this.addContact()}}
-                />
+                {
+                    numberPhone != '' ?
+                        <FAB
+                            style={styles.fab}
+                            small
+                            icon='plus'
+                            label='Add to contact'
+                            onPress={
+                                openContactPicker = () => {
+                                    let number = this.state.numberPhone //replace with any number
+                                    let email = this.state.email
+                                    let newPerson = {
+                                        phoneNumbers: [{
+                                            label: "mobile",
+                                            number: number,
+                                        }],
+                                        emailAddresses: [{
+                                            label: "work",
+                                            email: email,
+                                        }],
+                                    };
+                                    Contacts.openContactForm(newPerson, (err) => {
+                                        if (err) console.warn(err) ;
+                                        // form is open
+                                        });
+                                }
+                                //openContactPicker
+                            }
+                        /> : 
+                        <Text></Text>
+                }
             </View>
+
         )
     }
 }
